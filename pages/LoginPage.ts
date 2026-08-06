@@ -6,12 +6,13 @@ export class LoginPage {
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
 
-  constructor(page: Page) {
-    this.page = page;
-    this.emailInput = page.getByPlaceholder('Email Address');
-    this.passwordInput = page.getByPlaceholder('Password');
-    this.loginButton = page.getByRole('button', { name: 'Login' });
-  }
+ constructor(page: Page) {
+  this.page = page;
+  const loginForm = page.locator('form').filter({ hasText: 'Login' });
+  this.emailInput = loginForm.getByPlaceholder('Email Address');
+  this.passwordInput = loginForm.getByPlaceholder('Password');
+  this.loginButton = loginForm.getByRole('button', { name: 'Login' });
+}
 
   async login(email: string, password: string) {
     await this.emailInput.fill(email);
