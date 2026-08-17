@@ -1,14 +1,19 @@
-import { test, expect } from '@playwright/test';
+import 'dotenv/config';
+import { test } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
-import { HomePage } from '../pages/HomePage';
 
-test('логин с тестовыми данными', async ({ page }) => {
-  await page.goto('https://automationexercise.com');
+test.describe('Login Page', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('https://automationexercise.com/login');
+  });
 
-  const homePage = new HomePage(page);
-  await homePage.goToLogin();
+  test('layout: форма логина отображается', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.verifyLayout();
+  });
 
-  const loginPage = new LoginPage(page);
-  await loginPage.login('test@test.com', 'wrongpassword');
-
+  test('логин с неверными данными показывает ошибку', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login('test@test.com', 'wrongpassword');
+  });
 });

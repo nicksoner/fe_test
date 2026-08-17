@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export class HomePage {
   readonly page: Page;
@@ -17,11 +17,17 @@ export class HomePage {
     await this.products.click();
   }
 
-async goToLogin() {
+  async goToLogin() {
     await this.login.click();
   }
 
   async goToAutomationPracticeSite() {
     await this.logo.click();
+  }
+
+  async verifyLayout() {
+    await expect(this.products).toBeVisible();
+    await expect(this.login).toBeVisible();
+    await expect(this.logo).toBeVisible();
   }
 }
